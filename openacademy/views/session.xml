@@ -49,6 +49,15 @@
             </calendar>
         </field>
     </record>
+    <!--gantt view-->
+    <record model="ir.ui.view" id="session_gantt_view">
+        <field name="name">session.gantt</field>
+        <field name="model">openacademy.session</field>
+        <field name="arch" type="xml">
+            <gantt string="Session Gantt" date_start="start_date" date_stop="end_date" default_group_by='instructor_id'></gantt>
+        </field>
+    </record>
+    <!--graph view-->
     <record model="ir.ui.view" id="openacademy_session_graph_view">
         <field name="name">openacademy.session.graph</field>
         <field name="model">openacademy.session</field>

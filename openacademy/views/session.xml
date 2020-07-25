@@ -56,7 +56,7 @@
         <field name="arch" type="xml">
             <graph string="Participations by Courses">
                 <field name="course_id"/>
-                <field name="attendees_count" type="measure"/>
+                <!-- <field name="attendees_count" type="measure"/> -->
             </graph>
         </field>
     </record>

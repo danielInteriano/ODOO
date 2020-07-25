@@ -17,6 +17,7 @@ class Session(models.Model):
                                     domain=['|', ('instructor', '=', True), ('category_id.name', 'ilike', "Teacher")])
     course_id = fields.Many2one(
         'openacademy.course', ondelete='cascade', string="Course", required=True)
+
     attendee_ids = fields.Many2many('res.partner', string="Attendees")
 
     taken_seats = fields.Float(string="Taken seats", compute='_taken_seats')
@@ -52,35 +53,34 @@ class Session(models.Model):
                 },
             }
 
-        @api.depends('start_date', 'duration')
-        def _get_end_date(self):
-            for r in self:
-                if not (r.start_date and r.duration):
-                    r.end_date = r.start_date
-                    continue
+    @api.depends('start_date', 'duration')
+    def _get_end_date(self):
+        for r in self:
+            if not (r.start_date and r.duration):
+                r.end_date = r.start_date
+                continue
 
                 # Add duration to start_date, but: Monday + 5 days = Saturday, so
                 # subtract one second to get on Friday instead
                 duration = timedelta(days=r.duration, seconds=-1)
                 r.end_date = r.start_date + duration
 
-        def _set_end_date(self):
-            for r in self:
-                if not (r.start_date and r.end_date):
-                    continue
-
+    def _set_end_date(self):
+        for r in self:
+            if not (r.start_date and r.end_date):
+                continue
                 # Compute the difference between dates, but: Friday - Monday = 4 days,
                 # so add one day to get 5 days instead
                 r.duration = (r.end_date - r.start_date).days + 1
 
-        @api.depends('attendee_ids')
-        def _get_attendees_count(self):
-            for r in self:
-                r.attendees_count = len(r.attendee_ids)
+    @api.depends('attendee_ids')
+    def _get_attendees_count(self):
+        for r in self:
+            r.attendees_count = len(r.attendee_ids)
 
-        @api.constrains('instructor_id', 'attendee_ids')
-        def _check_instructor_not_in_attendees(self):
-            for r in self:
-                if r.instructor_id and r.instructor_id in r.attendee_ids:
-                    raise exceptions.ValidationError(
-                        "A session's instructor can't be an attendee")
+    @api.constrains('instructor_id', 'attendee_ids')
+    def _check_instructor_not_in_attendees(self):
+        for r in self:
+            if r.instructor_id and r.instructor_id in r.attendee_ids:
+                raise exceptions.ValidationError(
+                    "A session's instructor can't be an attendee")

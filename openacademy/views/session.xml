@@ -97,6 +97,11 @@
                                 
                                 
                                 
+                                
+                                
+                                
+                                
+                                
                                 <field name="name"/>
                                 <br/>
                                     Start date:
@@ -107,9 +112,19 @@
                                 
                                 
                                 
+                                
+                                
+                                
+                                
+                                
                                 <field name="start_date"/>
                                 <br/>
                                     duration:
+                                
+                                
+                                
+                                
+                                
                                 
                                 
                                 
@@ -139,33 +154,11 @@
         <field name="arch" type="xml">
             <form string="Add Attendees">
                 <group>
-                    <field name="session_id"/>
-                    <field name="attendee_ids"/>
-                </group>
-            </form>
-        </field>
-    </record>
-    <act_window id="launch_session_wizard"
-                    name="Add Attendees"
-                    binding_model="openacademy.session"
-                    res_model="openacademy.wizard"
-                    view_mode="form"
-                    target="new"/>
-    <record model="ir.ui.view" id="wizard_form_view">
-        <field name="name">wizard.form</field>
-        <field name="model">openacademy.wizard</field>
-        <field name="arch" type="xml">
-            <form string="Add Attendees">
-                <group>
                     <field name="session_ids"/>
                     <field name="attendee_ids"/>
                 </group>
                 <footer>
-                    <button name="subscribe" type="object"
-                                string="Subscribe" class="oe_highlight"/>
-                        or
-                        
-                    
+                    <button name="subscribe" type="object" string="Subscribe" class="oe_highlight"/> or 
                     <button special="cancel" string="Cancel"/>
                 </footer>
             </form>
